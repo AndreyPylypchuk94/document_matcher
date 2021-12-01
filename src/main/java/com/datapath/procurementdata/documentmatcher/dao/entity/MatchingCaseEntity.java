@@ -16,7 +16,7 @@ public class MatchingCaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "matching_cases_words",
             joinColumns = @JoinColumn(name = "case_id"),
             inverseJoinColumns = @JoinColumn(name = "word_id")
