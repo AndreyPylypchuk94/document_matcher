@@ -13,7 +13,9 @@ import java.util.List;
 public class MatchingResultDaoService {
 
     private static final String GET_QUERY = """
-            select id, title, words, types
+            select id, title, 
+                array_to_string(words, ', ') AS words, 
+                array_to_string(types, ', ') AS types
             from matching_results
             where type is null
             order by title
