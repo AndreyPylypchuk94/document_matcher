@@ -1,17 +1,18 @@
-package com.datapath.procurementdata.documentmatcher.controller;
+package com.datapath.procurementdata.documentmatcher.controller.api;
 
 import com.datapath.procurementdata.documentmatcher.dao.domain.MatchingResult;
+import com.datapath.procurementdata.documentmatcher.dto.UpdateResultRequest;
 import com.datapath.procurementdata.documentmatcher.service.ResultWebService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("results")
 @AllArgsConstructor
+@RequestMapping("results")
 public class ResultController {
 
     private final ResultWebService service;
@@ -19,5 +20,10 @@ public class ResultController {
     @GetMapping
     public List<MatchingResult> get() {
         return service.get();
+    }
+
+    @PutMapping
+    public void update(@Valid @RequestBody UpdateResultRequest request) {
+        service.update(request.getUpdates());
     }
 }

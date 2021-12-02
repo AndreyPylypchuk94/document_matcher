@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DocumentTypeRepository extends JpaRepository<DocumentTypeEntity, String> {
+public interface DocumentTypeRepository extends JpaRepository<DocumentTypeEntity, Long> {
     List<DocumentTypeEntity> findAllByOrderByType();
 }
