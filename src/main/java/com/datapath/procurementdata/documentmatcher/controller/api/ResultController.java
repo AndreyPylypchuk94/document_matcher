@@ -1,7 +1,7 @@
 package com.datapath.procurementdata.documentmatcher.controller.api;
 
 import com.datapath.procurementdata.documentmatcher.dao.domain.MatchingResult;
-import com.datapath.procurementdata.documentmatcher.dto.UpdateResultRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
 import com.datapath.procurementdata.documentmatcher.service.ResultWebService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

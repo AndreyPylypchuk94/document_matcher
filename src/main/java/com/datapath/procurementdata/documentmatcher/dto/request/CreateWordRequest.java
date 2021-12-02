@@ -1,4 +1,4 @@
-package com.datapath.procurementdata.documentmatcher.dto;
+package com.datapath.procurementdata.documentmatcher.dto.request;
 
 import lombok.Data;
 

@@ -1,5 +1,6 @@
-package com.datapath.procurementdata.documentmatcher.dto;
+package com.datapath.procurementdata.documentmatcher.dto.request;
 
+import com.datapath.procurementdata.documentmatcher.dto.MatchingCaseDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

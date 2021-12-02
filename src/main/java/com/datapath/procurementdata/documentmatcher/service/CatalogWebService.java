@@ -5,9 +5,9 @@ import com.datapath.procurementdata.documentmatcher.dao.entity.MatchingCaseEntit
 import com.datapath.procurementdata.documentmatcher.dao.entity.WordEntity;
 import com.datapath.procurementdata.documentmatcher.dao.repository.DocumentTypeRepository;
 import com.datapath.procurementdata.documentmatcher.dao.repository.WordRepository;
-import com.datapath.procurementdata.documentmatcher.dto.CreateWordRequest;
 import com.datapath.procurementdata.documentmatcher.dto.MatchingCaseDTO;
-import com.datapath.procurementdata.documentmatcher.dto.SaveTypeRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveTypeRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,8 +2,8 @@ package com.datapath.procurementdata.documentmatcher.controller.api;
 
 import com.datapath.procurementdata.documentmatcher.dao.entity.DocumentTypeEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.WordEntity;
-import com.datapath.procurementdata.documentmatcher.dto.CreateWordRequest;
-import com.datapath.procurementdata.documentmatcher.dto.SaveTypeRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveTypeRequest;
 import com.datapath.procurementdata.documentmatcher.service.CatalogWebService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
