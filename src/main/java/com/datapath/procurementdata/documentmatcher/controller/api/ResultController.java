@@ -1,6 +1,6 @@
 package com.datapath.procurementdata.documentmatcher.controller.api;
 
-import com.datapath.procurementdata.documentmatcher.dao.domain.MatchingResult;
+import com.datapath.procurementdata.documentmatcher.dto.LabelingResultDTO;
 import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
 import com.datapath.procurementdata.documentmatcher.service.ResultWebService;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class ResultController {
     private final ResultWebService service;
 
     @GetMapping
-    public List<MatchingResult> get() {
+    public List<LabelingResultDTO> get() {
         return service.get();
     }
 

@@ -7,15 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity(name = "matching_cases")
-public class MatchingCaseEntity {
+@Entity(name = "label_cases")
+public class LabelCaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "matching_cases_words",
+    @JoinTable(name = "label_cases_words",
             joinColumns = @JoinColumn(name = "case_id"),
             inverseJoinColumns = @JoinColumn(name = "word_id")
     )

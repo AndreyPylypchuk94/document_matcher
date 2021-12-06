@@ -2,11 +2,12 @@ package com.datapath.procurementdata.documentmatcher.dto;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class MatchingCaseDTO {
+public class LabelingResultDTO {
     private Long id;
-    private List<Long> wordIds = new ArrayList<>();
+    private String value;
+    private List<Long> wordIds;
+    private List<Long> labelIds;
 }

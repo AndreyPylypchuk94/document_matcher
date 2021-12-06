@@ -1,21 +1,23 @@
 package com.datapath.procurementdata.documentmatcher.service;
 
-import com.datapath.procurementdata.documentmatcher.dao.domain.MatchingResult;
-import com.datapath.procurementdata.documentmatcher.dao.service.MatchingResultDaoService;
-import com.datapath.procurementdata.documentmatcher.dto.UpdateResultDTO;
-import lombok.AllArgsConstructor;
+import com.datapath.procurementdata.documentmatcher.ModelMapper;
+import com.datapath.procurementdata.documentmatcher.dao.service.LabelingResultDaoService;
+import com.datapath.procurementdata.documentmatcher.dto.LabelingResultDTO;
+import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest.UpdateResultDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ResultWebService {
 
-    private final MatchingResultDaoService service;
+    private final LabelingResultDaoService service;
+    private final ModelMapper mapper;
 
-    public List<MatchingResult> get() {
-        return service.get();
+    public List<LabelingResultDTO> get() {
+        return mapper.mapResults(service.get());
     }
 
     public void update(List<UpdateResultDTO> updates) {

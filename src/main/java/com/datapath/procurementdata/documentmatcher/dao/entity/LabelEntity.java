@@ -7,17 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity(name = "document_types")
-public class DocumentTypeEntity {
+@Entity(name = "labels")
+public class LabelEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String type;
+    private String label;
 
-    @JoinColumn(name = "type_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private LabelCategoryEntity category;
+
+    @JoinColumn(name = "label_id")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<MatchingCaseEntity> cases = new ArrayList<>();
+    private List<LabelCaseEntity> cases = new ArrayList<>();
 }
