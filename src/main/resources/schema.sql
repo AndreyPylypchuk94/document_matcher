@@ -2,8 +2,8 @@ CREATE TABLE IF NOT EXISTS labeling_results
 (
     id                 bigserial PRIMARY KEY,
     value              text NOT NULL,
-    words              bigint[],
-    labels             bigint[],
+    words              text,
+    labels             text,
     manual_handle_date TIMESTAMP,
     trash              boolean
 );
