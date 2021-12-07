@@ -1,11 +1,12 @@
 CREATE TABLE IF NOT EXISTS labeling_results
 (
-    id                 bigserial PRIMARY KEY,
-    value              text NOT NULL,
-    words              text,
-    labels             text,
-    manual_handle_date TIMESTAMP,
-    trash              boolean
+    id               bigserial PRIMARY KEY,
+    value            text NOT NULL,
+    words            text,
+    labels           text,
+    completed_labels text,
+    handle_date      TIMESTAMP,
+    trash            boolean
 );
 
 CREATE TABLE IF NOT EXISTS labeling_results_labels

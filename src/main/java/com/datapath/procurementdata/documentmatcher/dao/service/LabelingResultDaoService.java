@@ -25,7 +25,7 @@ public class LabelingResultDaoService {
                 string_to_array(words, ', ') AS words, 
                 string_to_array(labels, ', ') AS labels
             from labeling_results
-            where manual_handle_date is null
+            where handle_date is null and label is null
             order by value 
             limit 10;
             """;
@@ -49,7 +49,7 @@ public class LabelingResultDaoService {
     private static final String UPDATE_RESULT_QUERY = """
             update labeling_results
             set trash              = ?,
-                manual_handle_date = ?
+                handle_date = ?
             where id = ?;
             """;
 

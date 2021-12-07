@@ -23,9 +23,9 @@ public class UpdateResultRequest {
         private List<Long> caseIds = new ArrayList<>();
         private boolean trash;
 
-        @AssertTrue(message = "skipped labelIds or caseIds for non trash data")
+        @AssertTrue(message = "skipped labelIds for non trash data")
         public boolean isValid() {
-            if (!trash) return !isEmpty(labelIds) && !isEmpty(caseIds);
+            if (!trash) return !isEmpty(labelIds);
             return true;
         }
     }
