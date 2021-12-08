@@ -21,13 +21,18 @@ import static java.time.LocalDateTime.now;
 public class LabelingResultDaoService {
 
     private static final String GET_QUERY = """
-            select id, value, 
-                string_to_array(words, ', ') AS words, 
-                string_to_array(labels, ', ') AS labels
+            select id, value, words, labels
             from labeling_results
-            where handle_date is null and label is null
+            where handle_date is null and completed_labels is null
             order by value 
             limit 10;
+            """;
+
+    private static final String GET_COMPLETED_QUERY = """
+            select id, completed_labels as completedLabels
+            from labeling_results
+            where handle_date is null and completed_labels is not null
+            order by value;
             """;
 
     private static final String DELETE_RESULT_LABELS_QUERY = """
@@ -48,7 +53,7 @@ public class LabelingResultDaoService {
 
     private static final String UPDATE_RESULT_QUERY = """
             update labeling_results
-            set trash              = ?,
+            set trash       = ?,
                 handle_date = ?
             where id = ?;
             """;
@@ -57,6 +62,10 @@ public class LabelingResultDaoService {
 
     public List<LabelingResult> get() {
         return template.query(GET_QUERY, new BeanPropertyRowMapper<>(LabelingResult.class));
+    }
+
+    public List<LabelingResult> getCompleted() {
+        return template.query(GET_COMPLETED_QUERY, new BeanPropertyRowMapper<>(LabelingResult.class));
     }
 
     @Transactional

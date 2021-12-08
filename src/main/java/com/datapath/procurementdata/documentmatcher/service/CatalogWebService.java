@@ -30,20 +30,23 @@ public class CatalogWebService {
     private final LabelCategoryRepository labelCategoryRepository;
     private final ModelMapper mapper;
 
+    @Transactional
     public List<LabelDTO> getLabels() {
         return mapper.mapLabels(labelRepository.findAllByOrderByLabel());
     }
 
+    @Transactional
     public List<WordDTO> getWords() {
-        return mapper.mapWords(wordRepository.findAllByOrderByValue());
+        return mapper.mapWords(wordRepository.findAllByOrderByWord());
     }
 
+    @Transactional
     public List<WordDTO> createWord(CreateWordRequest request) {
         WordEntity entity = new WordEntity();
-        entity.setValue(request.getValue());
-        entity.setRegex(request.getRegex());
+        entity.setWord(request.getWord());
+        entity.setRegexes(request.getRegexes());
         wordRepository.save(entity);
-        return mapper.mapWords(wordRepository.findAllByOrderByValue());
+        return mapper.mapWords(wordRepository.findAllByOrderByWord());
     }
 
     @Transactional

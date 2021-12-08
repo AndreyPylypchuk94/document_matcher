@@ -21,8 +21,8 @@ public interface ModelMapper {
 
     LabelCategoryDTO map(LabelCategoryEntity entity);
 
-    @Mapping(source = "words", target = "wordIds")
-    @Mapping(source = "labels", target = "labelIds")
+    @Mapping(expression = "java(domain.getWords())", target = "wordIds")
+    @Mapping(expression = "java(domain.getLabels())", target = "labelIds")
     LabelingResultDTO map(LabelingResult domain);
 
     List<LabelingResultDTO> mapResults(List<LabelingResult> domains);

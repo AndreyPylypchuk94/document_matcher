@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @Entity(name = "labels")
+@NamedEntityGraph(name = "label-entity-graph", attributeNodes = {@NamedAttributeNode(value = "cases")})
 public class LabelEntity {
 
     @Id
@@ -22,6 +23,6 @@ public class LabelEntity {
     private LabelCategoryEntity category;
 
     @JoinColumn(name = "label_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LabelCaseEntity> cases = new ArrayList<>();
 }
