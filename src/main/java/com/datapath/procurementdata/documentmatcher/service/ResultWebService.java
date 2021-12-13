@@ -3,7 +3,7 @@ package com.datapath.procurementdata.documentmatcher.service;
 import com.datapath.procurementdata.documentmatcher.ModelMapper;
 import com.datapath.procurementdata.documentmatcher.dao.service.LabelingResultDaoService;
 import com.datapath.procurementdata.documentmatcher.dto.LabelingResultDTO;
-import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest.UpdateResultDTO;
+import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class ResultWebService {
         return mapper.mapResults(service.get());
     }
 
-    public void update(List<UpdateResultDTO> updates) {
-        updates.forEach(service::update);
+    public void update(UpdateResultRequest request) {
+        service.update(request);
     }
 }

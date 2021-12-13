@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("catalogs")

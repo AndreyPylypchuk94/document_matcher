@@ -15,6 +15,7 @@ public class LabelingResult {
     private String words;
     private String labels;
     private String completedLabels;
+    private Integer labelCategoryId;
 
     public List<Long> getWords() {
         return toCollection(words);

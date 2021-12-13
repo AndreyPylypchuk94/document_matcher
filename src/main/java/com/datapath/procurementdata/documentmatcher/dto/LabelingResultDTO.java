@@ -10,4 +10,5 @@ public class LabelingResultDTO {
     private String value;
     private List<Long> wordIds;
     private List<Long> labelIds;
+    private Integer labelCategoryId;
 }

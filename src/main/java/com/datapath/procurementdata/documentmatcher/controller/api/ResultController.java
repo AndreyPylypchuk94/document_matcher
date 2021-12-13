@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("results")
@@ -24,6 +24,6 @@ public class ResultController {
 
     @PutMapping
     public void update(@Valid @RequestBody UpdateResultRequest request) {
-        service.update(request.getUpdates());
+        service.update(request);
     }
 }

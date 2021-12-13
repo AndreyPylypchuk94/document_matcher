@@ -1,12 +1,14 @@
 CREATE TABLE IF NOT EXISTS labeling_results
 (
-    id               bigserial PRIMARY KEY,
-    value            text NOT NULL,
-    words            text,
-    labels           text,
-    completed_labels text,
-    handle_date      TIMESTAMP,
-    trash            boolean
+    id                bigserial PRIMARY KEY,
+    value             text NOT NULL,
+    words             text,
+    labels            text,
+    completed_labels  text,
+    label_category_id int,
+    handle_date       TIMESTAMP,
+    trash             boolean,
+    foreign key (label_category_id) references label_categories (id)
 );
 
 CREATE TABLE IF NOT EXISTS labeling_results_labels

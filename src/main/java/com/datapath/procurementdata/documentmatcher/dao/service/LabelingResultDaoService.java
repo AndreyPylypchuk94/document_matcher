@@ -1,7 +1,7 @@
 package com.datapath.procurementdata.documentmatcher.dao.service;
 
 import com.datapath.procurementdata.documentmatcher.dao.domain.LabelingResult;
-import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest.UpdateResultDTO;
+import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -21,7 +21,7 @@ import static java.time.LocalDateTime.now;
 public class LabelingResultDaoService {
 
     private static final String GET_QUERY = """
-            select id, value, words, labels
+            select id, value, words, labels, label_category_id as labelCategoryId
             from labeling_results
             where handle_date is null and completed_labels is null
             order by value 
@@ -69,16 +69,16 @@ public class LabelingResultDaoService {
     }
 
     @Transactional
-    public void update(UpdateResultDTO updateDTO) {
-        template.update(DELETE_RESULT_LABELS_QUERY, updateDTO.getId());
-        template.update(DELETE_RESULT_CASES_QUERY, updateDTO.getId());
+    public void update(UpdateResultRequest update) {
+        template.update(DELETE_RESULT_LABELS_QUERY, update.getId());
+        template.update(DELETE_RESULT_CASES_QUERY, update.getId());
 
-        if (!updateDTO.isTrash()) {
-            insertBatch(SET_LABELS_QUERY, updateDTO.getId(), updateDTO.getLabelIds());
-            insertBatch(SET_CASES_QUERY, updateDTO.getId(), updateDTO.getCaseIds());
+        if (!update.isTrash()) {
+            insertBatch(SET_LABELS_QUERY, update.getId(), update.getLabelIds());
+            insertBatch(SET_CASES_QUERY, update.getId(), update.getCaseIds());
         }
 
-        template.update(UPDATE_RESULT_QUERY, updateDTO.isTrash(), now(), updateDTO.getId());
+        template.update(UPDATE_RESULT_QUERY, update.isTrash(), now(), update.getId());
     }
 
     private void insertBatch(String sql, Long resultId, List<Long> ids) {
