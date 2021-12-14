@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS labeling_results_labels
 (
     labeling_results_id bigint,
     label_id            bigint,
+    text                text,
     primary key (labeling_results_id, label_id),
     foreign key (label_id) references labels (id),
     foreign key (labeling_results_id) references labeling_results (id)

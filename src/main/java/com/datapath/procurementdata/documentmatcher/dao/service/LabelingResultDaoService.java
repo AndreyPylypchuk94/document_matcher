@@ -2,6 +2,7 @@ package com.datapath.procurementdata.documentmatcher.dao.service;
 
 import com.datapath.procurementdata.documentmatcher.dao.domain.LabelingResult;
 import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest.LabelData;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
@@ -44,7 +45,7 @@ public class LabelingResultDaoService {
             """;
 
     private static final String SET_LABELS_QUERY = """
-            insert into labeling_results_labels values (?, ?);
+            insert into labeling_results_labels values (?, ?, ?);
             """;
 
     private static final String SET_CASES_QUERY = """
@@ -74,19 +75,35 @@ public class LabelingResultDaoService {
         template.update(DELETE_RESULT_CASES_QUERY, update.getId());
 
         if (!update.isTrash()) {
-            insertBatch(SET_LABELS_QUERY, update.getId(), update.getLabelIds());
-            insertBatch(SET_CASES_QUERY, update.getId(), update.getCaseIds());
+            insertLabelBatch(update.getId(), update.getLabels());
+            insertCaseBatch(update.getId(), update.getCaseIds());
         }
 
         template.update(UPDATE_RESULT_QUERY, update.isTrash(), now(), update.getId());
     }
 
-    private void insertBatch(String sql, Long resultId, List<Long> ids) {
-        template.batchUpdate(sql, new BatchPreparedStatementSetter() {
+    private void insertCaseBatch(Long resultId, List<Long> ids) {
+        template.batchUpdate(SET_CASES_QUERY, new BatchPreparedStatementSetter() {
             @Override
             public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
                 ps.setLong(1, resultId);
                 ps.setLong(2, ids.get(i));
+            }
+
+            @Override
+            public int getBatchSize() {
+                return ids.size();
+            }
+        });
+    }
+
+    private void insertLabelBatch(Long resultId, List<LabelData> ids) {
+        template.batchUpdate(SET_LABELS_QUERY, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
+                ps.setLong(1, resultId);
+                ps.setLong(2, ids.get(i).getId());
+                ps.setString(3, ids.get(i).getText());
             }
 
             @Override
