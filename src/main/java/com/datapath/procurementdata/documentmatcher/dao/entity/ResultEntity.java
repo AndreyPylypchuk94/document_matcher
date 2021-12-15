@@ -36,8 +36,7 @@ public class ResultEntity {
             inverseJoinColumns = @JoinColumn(name = "case_id"))
     private List<CaseEntity> selectedCases = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "result_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "result")
     private List<ResultLabelEntity> selectedLabels = new ArrayList<>();
 
     public List<Long> getWords() {

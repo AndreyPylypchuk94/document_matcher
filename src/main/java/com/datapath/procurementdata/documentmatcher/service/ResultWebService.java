@@ -60,6 +60,7 @@ public class ResultWebService {
                                 .map(l -> {
                                     ResultLabelEntity labelingResultLabel = new ResultLabelEntity();
                                     labelingResultLabel.setText(l.getText());
+                                    labelingResultLabel.setResult(entity);
                                     labelingResultLabel.setLabel(labels.get(l.getId()));
                                     return labelingResultLabel;
                                 })
