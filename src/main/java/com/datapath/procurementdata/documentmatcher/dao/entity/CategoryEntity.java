@@ -6,9 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Data
-@Entity(name = "label_categories")
-public class LabelCategoryEntity {
+@Entity(name = "categories")
+public class CategoryEntity {
     @Id
-    private Long id;
+    private Integer id;
     private String category;
 }

@@ -5,10 +5,12 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class LabelingResultDTO {
+public class ResultDTO {
     private Long id;
     private String value;
     private List<Long> wordIds;
     private List<Long> labelIds;
-    private Integer labelCategoryId;
+    private Integer categoryId;
+    private List<CaseDTO> selectedCases;
+    private List<LabelDataDTO> selectedLabels;
 }

@@ -1,9 +1,9 @@
 package com.datapath.procurementdata.documentmatcher.service;
 
-import com.datapath.procurementdata.documentmatcher.dao.domain.LabelingResult;
-import com.datapath.procurementdata.documentmatcher.dao.service.LabelingResultDaoService;
-import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest;
-import com.datapath.procurementdata.documentmatcher.dto.request.UpdateResultRequest.LabelData;
+import com.datapath.procurementdata.documentmatcher.dao.service.ResultDaoService;
+import com.datapath.procurementdata.documentmatcher.dto.LabelDataDTO;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveResultBatchRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveResultRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,18 +18,21 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class LabelAutoHandler {
 
-    private final LabelingResultDaoService daoService;
+    private final ResultDaoService daoService;
+    private final ResultWebService service;
 
     @Scheduled(fixedDelay = 1000 * 60 * 60)
     private void handle() {
         log.info("Auto handling started");
-        List<LabelingResult> completed = daoService.getCompleted();
-        completed.forEach(c -> {
-            UpdateResultRequest update = new UpdateResultRequest();
-            update.setId(c.getId());
-            update.setLabels(c.getCompletedLabels().stream().map(LabelData::new).collect(toList()));
-            daoService.update(update);
-        });
+        List<SaveResultRequest> batch = daoService.getCompleted()
+                .stream()
+                .map(c -> {
+                    SaveResultRequest request = new SaveResultRequest();
+                    request.setId(c.getId());
+                    request.setLabels(c.getCompletedLabels().stream().map(LabelDataDTO::new).collect(toList()));
+                    return request;
+                }).collect(toList());
+        service.save(new SaveResultBatchRequest(batch));
         log.info("Auto handling finished");
     }
 }

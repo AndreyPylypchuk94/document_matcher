@@ -18,11 +18,11 @@ public class LabelEntity {
     @Column(nullable = false, unique = true)
     private String label;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private LabelCategoryEntity category;
+    private CategoryEntity category;
 
     @JoinColumn(name = "label_id")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LabelCaseEntity> cases = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CaseEntity> cases = new ArrayList<>();
 }

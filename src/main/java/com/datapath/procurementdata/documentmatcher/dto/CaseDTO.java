@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class LabelCaseDTO {
+public class CaseDTO {
     private Long id;
     private List<Long> wordIds;
 }

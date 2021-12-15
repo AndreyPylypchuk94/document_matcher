@@ -1,10 +1,6 @@
 package com.datapath.procurementdata.documentmatcher;
 
-import com.datapath.procurementdata.documentmatcher.dao.domain.LabelingResult;
-import com.datapath.procurementdata.documentmatcher.dao.entity.LabelCaseEntity;
-import com.datapath.procurementdata.documentmatcher.dao.entity.LabelCategoryEntity;
-import com.datapath.procurementdata.documentmatcher.dao.entity.LabelEntity;
-import com.datapath.procurementdata.documentmatcher.dao.entity.WordEntity;
+import com.datapath.procurementdata.documentmatcher.dao.entity.*;
 import com.datapath.procurementdata.documentmatcher.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,23 +13,29 @@ public interface ModelMapper {
 
     WordDTO map(WordEntity entity);
 
-    List<LabelCategoryDTO> mapCategories(List<LabelCategoryEntity> entity);
+    List<CategoryDTO> mapCategories(List<CategoryEntity> entity);
 
-    LabelCategoryDTO map(LabelCategoryEntity entity);
+    CategoryDTO map(CategoryEntity entity);
 
-    @Mapping(expression = "java(domain.getWords())", target = "wordIds")
-    @Mapping(expression = "java(domain.getLabels())", target = "labelIds")
-    LabelingResultDTO map(LabelingResult domain);
+    List<ResultDTO> mapResults(List<ResultEntity> entities);
 
-    List<LabelingResultDTO> mapResults(List<LabelingResult> domains);
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(expression = "java(entity.getWords())", target = "wordIds")
+    @Mapping(expression = "java(entity.getLabels())", target = "labelIds")
+    ResultDTO map(ResultEntity entity);
 
-    @Mapping(source = "category.id", target = "labelCategoryId")
+    @Mapping(source = "category.id", target = "categoryId")
     LabelDTO map(LabelEntity entity);
 
     List<LabelDTO> mapLabels(List<LabelEntity> entities);
 
     @Mapping(target = "wordIds", expression = "java(entity.getWords().stream().map(WordEntity::getId).collect(java.util.stream.Collectors.toList()))")
-    LabelCaseDTO map(LabelCaseEntity entity);
+    CaseDTO map(CaseEntity entity);
 
-    List<LabelCaseDTO> mapLabelCases(List<LabelCaseEntity> entities);
+    List<CaseDTO> mapLabelCases(List<CaseEntity> entities);
+
+    List<LabelDataDTO> mapLabelData(List<ResultLabelEntity> entities);
+
+    @Mapping(target = "id", source = "label.id")
+    LabelDataDTO map(ResultLabelEntity entity);
 }

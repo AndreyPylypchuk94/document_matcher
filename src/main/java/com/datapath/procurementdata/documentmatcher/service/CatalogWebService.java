@@ -1,14 +1,14 @@
 package com.datapath.procurementdata.documentmatcher.service;
 
 import com.datapath.procurementdata.documentmatcher.ModelMapper;
-import com.datapath.procurementdata.documentmatcher.dao.entity.LabelCaseEntity;
+import com.datapath.procurementdata.documentmatcher.dao.entity.CaseEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.LabelEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.WordEntity;
-import com.datapath.procurementdata.documentmatcher.dao.repository.LabelCategoryRepository;
+import com.datapath.procurementdata.documentmatcher.dao.repository.CategoryRepository;
 import com.datapath.procurementdata.documentmatcher.dao.repository.LabelRepository;
 import com.datapath.procurementdata.documentmatcher.dao.repository.WordRepository;
-import com.datapath.procurementdata.documentmatcher.dto.LabelCaseDTO;
-import com.datapath.procurementdata.documentmatcher.dto.LabelCategoryDTO;
+import com.datapath.procurementdata.documentmatcher.dto.CaseDTO;
+import com.datapath.procurementdata.documentmatcher.dto.CategoryDTO;
 import com.datapath.procurementdata.documentmatcher.dto.LabelDTO;
 import com.datapath.procurementdata.documentmatcher.dto.WordDTO;
 import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
@@ -27,7 +27,7 @@ public class CatalogWebService {
 
     private final LabelRepository labelRepository;
     private final WordRepository wordRepository;
-    private final LabelCategoryRepository labelCategoryRepository;
+    private final CategoryRepository categoryRepository;
     private final ModelMapper mapper;
 
     @Transactional
@@ -58,10 +58,10 @@ public class CatalogWebService {
         return mapper.map(labelRepository.save(entity));
     }
 
-    private List<LabelCaseEntity> map(List<LabelCaseDTO> cases) {
+    private List<CaseEntity> map(List<CaseDTO> cases) {
         return cases.stream()
                 .map(c -> {
-                    LabelCaseEntity entity = new LabelCaseEntity();
+                    CaseEntity entity = new CaseEntity();
                     entity.setId(c.getId());
                     entity.setWords(wordRepository.findAllById(c.getWordIds()));
                     return entity;
@@ -69,7 +69,7 @@ public class CatalogWebService {
                 .collect(toList());
     }
 
-    public List<LabelCategoryDTO> getLabelCategories() {
-        return mapper.mapCategories(labelCategoryRepository.findAll());
+    public List<CategoryDTO> getLabelCategories() {
+        return mapper.mapCategories(categoryRepository.findAll());
     }
 }

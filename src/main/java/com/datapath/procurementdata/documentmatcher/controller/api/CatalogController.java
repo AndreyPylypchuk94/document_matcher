@@ -1,6 +1,6 @@
 package com.datapath.procurementdata.documentmatcher.controller.api;
 
-import com.datapath.procurementdata.documentmatcher.dto.LabelCategoryDTO;
+import com.datapath.procurementdata.documentmatcher.dto.CategoryDTO;
 import com.datapath.procurementdata.documentmatcher.dto.LabelDTO;
 import com.datapath.procurementdata.documentmatcher.dto.WordDTO;
 import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
@@ -44,7 +44,7 @@ public class CatalogController {
     }
 
     @GetMapping("label-categories")
-    public List<LabelCategoryDTO> getLabelCategories() {
+    public List<CategoryDTO> getLabelCategories() {
         return service.getLabelCategories();
     }
 }

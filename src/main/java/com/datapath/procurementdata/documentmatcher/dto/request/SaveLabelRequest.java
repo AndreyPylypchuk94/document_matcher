@@ -1,6 +1,6 @@
 package com.datapath.procurementdata.documentmatcher.dto.request;
 
-import com.datapath.procurementdata.documentmatcher.dto.LabelCaseDTO;
+import com.datapath.procurementdata.documentmatcher.dto.CaseDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,5 +13,5 @@ public class SaveLabelRequest {
 
     @NotBlank
     private String label;
-    private List<LabelCaseDTO> cases = new ArrayList<>();
+    private List<CaseDTO> cases = new ArrayList<>();
 }

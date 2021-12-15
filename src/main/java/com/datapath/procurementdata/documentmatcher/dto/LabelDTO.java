@@ -10,6 +10,6 @@ import java.util.List;
 public class LabelDTO {
     private Long id;
     private String label;
-    private Long labelCategoryId;
-    private List<LabelCaseDTO> cases;
+    private Integer categoryId;
+    private List<CaseDTO> cases;
 }
