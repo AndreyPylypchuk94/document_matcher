@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class CreateWordRequest {
+public class SaveWordRequest {
+    private Long id;
     @NotBlank
     private String word;
     private Set<String> regexes = new HashSet<>();

@@ -3,16 +3,14 @@ package com.datapath.procurementdata.documentmatcher.controller.api;
 import com.datapath.procurementdata.documentmatcher.dto.CategoryDTO;
 import com.datapath.procurementdata.documentmatcher.dto.LabelDTO;
 import com.datapath.procurementdata.documentmatcher.dto.WordDTO;
-import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
 import com.datapath.procurementdata.documentmatcher.dto.request.SaveLabelRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveWordRequest;
 import com.datapath.procurementdata.documentmatcher.service.CatalogWebService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static org.springframework.http.HttpStatus.CREATED;
 
 @CrossOrigin("*")
 @RestController
@@ -38,9 +36,8 @@ public class CatalogController {
     }
 
     @PostMapping("words")
-    @ResponseStatus(CREATED)
-    public List<WordDTO> createWord(@RequestBody @Valid CreateWordRequest request) {
-        return service.createWord(request);
+    public List<WordDTO> saveWord(@RequestBody @Valid SaveWordRequest request) {
+        return service.saveWord(request);
     }
 
     @GetMapping("label-categories")

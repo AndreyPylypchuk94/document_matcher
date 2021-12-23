@@ -11,8 +11,8 @@ import com.datapath.procurementdata.documentmatcher.dto.CaseDTO;
 import com.datapath.procurementdata.documentmatcher.dto.CategoryDTO;
 import com.datapath.procurementdata.documentmatcher.dto.LabelDTO;
 import com.datapath.procurementdata.documentmatcher.dto.WordDTO;
-import com.datapath.procurementdata.documentmatcher.dto.request.CreateWordRequest;
 import com.datapath.procurementdata.documentmatcher.dto.request.SaveLabelRequest;
+import com.datapath.procurementdata.documentmatcher.dto.request.SaveWordRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +41,9 @@ public class CatalogWebService {
     }
 
     @Transactional
-    public List<WordDTO> createWord(CreateWordRequest request) {
+    public List<WordDTO> saveWord(SaveWordRequest request) {
         WordEntity entity = new WordEntity();
+        entity.setId(request.getId());
         entity.setWord(request.getWord());
         entity.setRegexes(request.getRegexes());
         wordRepository.save(entity);
