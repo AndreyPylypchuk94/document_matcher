@@ -41,13 +41,12 @@ public class CatalogWebService {
     }
 
     @Transactional
-    public List<WordDTO> saveWord(SaveWordRequest request) {
+    public WordDTO saveWord(SaveWordRequest request) {
         WordEntity entity = new WordEntity();
         entity.setId(request.getId());
         entity.setWord(request.getWord());
         entity.setRegexes(request.getRegexes());
-        wordRepository.save(entity);
-        return mapper.mapWords(wordRepository.findAllByOrderByWord());
+        return mapper.map(wordRepository.save(entity));
     }
 
     @Transactional
@@ -56,6 +55,7 @@ public class CatalogWebService {
         entity.setId(request.getId());
         entity.setLabel(request.getLabel());
         entity.setCases(map(request.getCases()));
+        entity.setCategory(categoryRepository.getById(request.getCategoryId()));
         return mapper.map(labelRepository.save(entity));
     }
 

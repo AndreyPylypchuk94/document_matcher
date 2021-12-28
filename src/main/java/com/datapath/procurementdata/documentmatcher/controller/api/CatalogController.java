@@ -36,7 +36,7 @@ public class CatalogController {
     }
 
     @PostMapping("words")
-    public List<WordDTO> saveWord(@RequestBody @Valid SaveWordRequest request) {
+    public WordDTO saveWord(@RequestBody @Valid SaveWordRequest request) {
         return service.saveWord(request);
     }
 

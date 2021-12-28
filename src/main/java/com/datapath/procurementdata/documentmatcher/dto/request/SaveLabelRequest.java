@@ -4,6 +4,7 @@ import com.datapath.procurementdata.documentmatcher.dto.CaseDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,5 +14,7 @@ public class SaveLabelRequest {
 
     @NotBlank
     private String label;
+    @NotNull
+    private Integer categoryId;
     private List<CaseDTO> cases = new ArrayList<>();
 }
