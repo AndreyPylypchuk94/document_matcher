@@ -54,6 +54,7 @@ public class ResultEntity {
     private List<Long> toCollection(String value) {
         if (isEmpty(value)) return null;
         return Arrays.stream(value.split(","))
+                .map(String::trim)
                 .map(Long::parseLong)
                 .collect(toList());
     }

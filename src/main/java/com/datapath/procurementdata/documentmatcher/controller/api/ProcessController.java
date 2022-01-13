@@ -2,7 +2,6 @@ package com.datapath.procurementdata.documentmatcher.controller.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
+
+import static java.util.Collections.singletonMap;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Slf4j
 @RestController
@@ -26,39 +30,45 @@ public class ProcessController {
 
     @GetMapping("start")
     public ResponseEntity<?> start() {
-        if (!isRun) {
-            isRun = true;
-            Thread knimeThread = new Thread(() -> {
-                try {
-                    ProcessBuilder processBuilder = new ProcessBuilder()
-                            .command(PROCESS_PARAMS);
+        if (isRun)
+            return ResponseEntity.status(CONFLICT).build();
 
-                    Process process = processBuilder.start();
+        isRun = true;
+        Thread knimeThread = new Thread(() -> {
+            try {
+                ProcessBuilder processBuilder = new ProcessBuilder()
+                        .command(PROCESS_PARAMS);
 
-                    log.info("Knime process started with pid {}", process.pid());
+                Process process = processBuilder.start();
 
-                    InputStreamReader isr = new InputStreamReader(process.getInputStream());
-                    BufferedReader br = new BufferedReader(isr);
+                log.info("Knime process started with pid {}", process.pid());
 
-                    String line;
-                    while ((line = br.readLine()) != null)
-                        log.info(line);
+                InputStreamReader isr = new InputStreamReader(process.getInputStream());
+                BufferedReader br = new BufferedReader(isr);
 
-                    InputStreamReader eisr = new InputStreamReader(process.getErrorStream());
-                    BufferedReader ebr = new BufferedReader(eisr);
+                String line;
+                while ((line = br.readLine()) != null)
+                    log.info(line);
 
-                    while ((line = ebr.readLine()) != null)
-                        log.error(line);
+                InputStreamReader eisr = new InputStreamReader(process.getErrorStream());
+                BufferedReader ebr = new BufferedReader(eisr);
 
-                    log.info("Knime process finished");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                isRun = false;
-            });
-            knimeThread.setName("knime-thread");
-            knimeThread.start();
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+                while ((line = ebr.readLine()) != null)
+                    log.error(line);
+
+                log.info("Knime process finished");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            isRun = false;
+        });
+        knimeThread.setName("knime-thread");
+        knimeThread.start();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("status")
+    private ResponseEntity<Map<String, Boolean>> status() {
+        return ok(singletonMap("isRunning", isRun));
     }
 }
