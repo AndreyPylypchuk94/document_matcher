@@ -1,6 +1,8 @@
 package com.datapath.procurementdata.documentmatcher.dao.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +14,9 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Data
+@ToString(of = "id")
 @Entity(name = "results")
+@EqualsAndHashCode(of = "id")
 public class ResultEntity {
 
     @Id
