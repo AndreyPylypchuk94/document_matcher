@@ -25,6 +25,7 @@ public class ResultEntity {
     private String completedLabels;
     private LocalDateTime handleDate;
     private Boolean trash;
+    private Boolean autoHandled;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -32,7 +32,7 @@ public class LabelAutoHandler {
                     request.setLabels(c.getCompletedLabels().stream().map(LabelDataDTO::new).collect(toList()));
                     return request;
                 }).collect(toList());
-        service.save(new SaveResultBatchRequest(batch));
+        service.save(new SaveResultBatchRequest(batch, true));
         log.info("Auto handling finished");
     }
 }

@@ -9,7 +9,9 @@ import com.datapath.procurementdata.documentmatcher.dao.service.ResultDaoService
 import com.datapath.procurementdata.documentmatcher.dto.LabelDataDTO;
 import com.datapath.procurementdata.documentmatcher.dto.ResultDTO;
 import com.datapath.procurementdata.documentmatcher.dto.request.SaveResultBatchRequest;
+import com.datapath.procurementdata.documentmatcher.dto.response.PageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +33,10 @@ public class ResultWebService {
     private final ModelMapper mapper;
 
     @Transactional
-    public List<ResultDTO> get() {
-        return mapper.mapResults(service.get());
+    public PageResponse<ResultDTO> get() {
+        PageResponse<ResultDTO> response = new PageResponse<>();
+        response.setData(mapper.mapResults(service.get()));
+        return response;
     }
 
     @Transactional
@@ -48,6 +52,7 @@ public class ResultWebService {
         request.getData().forEach(d -> {
             ResultEntity entity = service.findById(d.getId());
 
+            entity.setAutoHandled(request.isAutoHandled());
             entity.setTrash(d.isTrash());
             entity.setHandleDate(LocalDateTime.now());
             entity.getSelectedCases().clear();
@@ -82,7 +87,15 @@ public class ResultWebService {
     }
 
     @Transactional
-    public List<ResultDTO> getProcessed(List<Long> labelIds) {
-        return mapper.mapResults(service.getProcessedToday(labelIds));
+    public PageResponse<ResultDTO> getProcessed(List<Long> labelIds, int page, int size) {
+        PageResponse<ResultDTO> response = new PageResponse<>();
+
+        Page<ResultEntity> entityPage = service.getProcessedToday(labelIds, page, size);
+        response.setPage(entityPage.getNumber());
+        response.setTotalPages(entityPage.getTotalPages());
+        response.setTotalElements(entityPage.getTotalElements());
+        response.setData(mapper.mapResults(entityPage.getContent()));
+
+        return response;
     }
 }

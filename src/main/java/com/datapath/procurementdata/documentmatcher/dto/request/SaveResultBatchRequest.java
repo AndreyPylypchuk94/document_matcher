@@ -14,4 +14,5 @@ import java.util.List;
 public class SaveResultBatchRequest {
     @Valid
     private List<SaveResultRequest> data = new ArrayList<>();
+    private boolean autoHandled = false;
 }
