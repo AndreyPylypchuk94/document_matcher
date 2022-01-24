@@ -4,6 +4,7 @@ import com.datapath.procurementdata.documentmatcher.ModelMapper;
 import com.datapath.procurementdata.documentmatcher.dao.entity.LabelEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.ResultEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.ResultLabelEntity;
+import com.datapath.procurementdata.documentmatcher.dao.repository.CategoryRepository;
 import com.datapath.procurementdata.documentmatcher.dao.repository.LabelRepository;
 import com.datapath.procurementdata.documentmatcher.dao.service.ResultDaoService;
 import com.datapath.procurementdata.documentmatcher.dto.LabelDataDTO;
@@ -30,12 +31,13 @@ public class ResultWebService {
 
     private final ResultDaoService service;
     private final LabelRepository labelRepository;
+    private final CategoryRepository categoryRepository;
     private final ModelMapper mapper;
 
     @Transactional
-    public PageResponse<ResultDTO> get() {
+    public PageResponse<ResultDTO> get(int categoryId) {
         PageResponse<ResultDTO> response = new PageResponse<>();
-        response.setData(mapper.mapResults(service.get()));
+        response.setData(mapper.mapResults(service.get(categoryRepository.getById(categoryId))));
         return response;
     }
 
@@ -87,10 +89,10 @@ public class ResultWebService {
     }
 
     @Transactional
-    public PageResponse<ResultDTO> getProcessed(List<Long> labelIds, int page, int size) {
+    public PageResponse<ResultDTO> getProcessed(List<Long> labelIds, int page, int size, int categoryId) {
         PageResponse<ResultDTO> response = new PageResponse<>();
 
-        Page<ResultEntity> entityPage = service.getProcessedToday(labelIds, page, size);
+        Page<ResultEntity> entityPage = service.getProcessedToday(labelIds, page, size, categoryId);
         response.setPage(entityPage.getNumber());
         response.setTotalPages(entityPage.getTotalPages());
         response.setTotalElements(entityPage.getTotalElements());

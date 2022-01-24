@@ -1,5 +1,6 @@
 package com.datapath.procurementdata.documentmatcher.dao.service;
 
+import com.datapath.procurementdata.documentmatcher.dao.entity.CategoryEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.ResultEntity;
 import com.datapath.procurementdata.documentmatcher.dao.repository.ResultRepository;
 import com.datapath.procurementdata.documentmatcher.exception.NotFoundEntityException;
@@ -22,17 +23,16 @@ public class ResultDaoService {
                 .orElseThrow(() -> new NotFoundEntityException(id));
     }
 
-    public List<ResultEntity> get() {
-        return repository.findFirst10ByHandleDateIsNullAndCompletedLabelsIsNullOrderByValueAsc();
+    public List<ResultEntity> get(CategoryEntity category) {
+        return repository.findFirst10ByCategoryAndHandleDateIsNullAndCompletedLabelsIsNullOrderByValueAsc(category);
     }
 
     public List<ResultEntity> getCompleted() {
         return repository.findAllByHandleDateIsNullAndCompletedLabelsIsNotNull();
     }
 
-    public Page<ResultEntity> getProcessedToday(List<Long> labelIds, int page, int size) {
-        List<Long> processedToday = repository.findProcessedTodayIds(labelIds);
-//        return repository.findAllById(processedToday);
+    public Page<ResultEntity> getProcessedToday(List<Long> labelIds, int page, int size, int categoryId) {
+        List<Long> processedToday = repository.findProcessedTodayIds(labelIds, categoryId);
         return repository.findAllByIdInOrderByValue(processedToday, of(page, size));
     }
 

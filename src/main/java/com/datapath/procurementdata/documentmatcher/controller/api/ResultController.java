@@ -22,10 +22,11 @@ public class ResultController {
     public PageResponse<ResultDTO> get(@RequestParam(defaultValue = "false") boolean processed,
                                        @RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "10") int size,
+                                       @RequestParam int categoryId,
                                        @RequestParam(defaultValue = "") List<Long> labelIds) {
         if (processed)
-            return service.getProcessed(labelIds, page, size);
-        return service.get();
+            return service.getProcessed(labelIds, page, size, categoryId);
+        return service.get(categoryId);
     }
 
     @PutMapping
