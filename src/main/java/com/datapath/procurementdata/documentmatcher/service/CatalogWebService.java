@@ -31,8 +31,10 @@ public class CatalogWebService {
     private final ModelMapper mapper;
 
     @Transactional
-    public List<LabelDTO> getLabels() {
-        return mapper.mapLabels(labelRepository.findAllByOrderByLabel());
+    public List<LabelDTO> getLabels(int categoryId) {
+        return mapper.mapLabels(
+                labelRepository.findAllByCategoryOrderByLabel(categoryRepository.getById(categoryId))
+        );
     }
 
     @Transactional

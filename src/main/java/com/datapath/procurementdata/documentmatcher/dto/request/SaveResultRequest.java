@@ -1,6 +1,7 @@
 package com.datapath.procurementdata.documentmatcher.dto.request;
 
 import com.datapath.procurementdata.documentmatcher.dto.LabelDataDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class SaveResultRequest {
     private List<Long> caseIds = new ArrayList<>();
     private boolean trash;
 
+    @JsonIgnore
     @AssertTrue(message = "skipped labels for non trash data")
     public boolean isValid() {
         if (!trash) return !isEmpty(labels);

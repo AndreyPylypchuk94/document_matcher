@@ -17,7 +17,7 @@ public interface ResultRepository extends JpaRepository<ResultEntity, Long> {
                      join results_labels rl on r.id = rl.result_id
             where r.handle_date::::date = now()::::date and
             r.auto_handled = false and
-            r.category_id = :categoryId
+            r.category_id = :categoryId and
             (COALESCE(:ids, null) is null or rl.label_id in :ids)
             """;
 

@@ -21,8 +21,8 @@ public class CatalogController {
     private final CatalogWebService service;
 
     @GetMapping("labels")
-    public List<LabelDTO> getLabels() {
-        return service.getLabels();
+    public List<LabelDTO> getLabels(@RequestParam int categoryId) {
+        return service.getLabels(categoryId);
     }
 
     @PostMapping("labels")
