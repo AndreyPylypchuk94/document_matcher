@@ -31,6 +31,9 @@ public class ResultEntity {
     private Boolean trash;
     private Boolean autoHandled;
 
+    private String stepId;
+    private LocalDateTime stepDateModified;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
