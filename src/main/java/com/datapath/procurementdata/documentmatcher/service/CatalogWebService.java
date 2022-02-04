@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.util.Comparator.comparingInt;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -73,6 +74,9 @@ public class CatalogWebService {
     }
 
     public List<CategoryDTO> getLabelCategories() {
-        return mapper.mapCategories(categoryRepository.findAll());
+        return mapper.mapCategories(categoryRepository.findAll())
+                .stream()
+                .sorted(comparingInt(CategoryDTO::getId))
+                .toList();
     }
 }

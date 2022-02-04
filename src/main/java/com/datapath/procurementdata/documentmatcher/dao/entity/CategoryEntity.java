@@ -11,4 +11,5 @@ public class CategoryEntity {
     @Id
     private Integer id;
     private String category;
+    private String workflowDirParam;
 }
