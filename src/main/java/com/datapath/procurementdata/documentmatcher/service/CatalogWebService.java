@@ -2,6 +2,7 @@ package com.datapath.procurementdata.documentmatcher.service;
 
 import com.datapath.procurementdata.documentmatcher.ModelMapper;
 import com.datapath.procurementdata.documentmatcher.dao.entity.CaseEntity;
+import com.datapath.procurementdata.documentmatcher.dao.entity.CategoryEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.LabelEntity;
 import com.datapath.procurementdata.documentmatcher.dao.entity.WordEntity;
 import com.datapath.procurementdata.documentmatcher.dao.repository.CategoryRepository;
@@ -19,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static java.lang.String.format;
 import static java.util.Comparator.comparingInt;
+import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -39,16 +42,29 @@ public class CatalogWebService {
     }
 
     @Transactional
-    public List<WordDTO> getWords() {
-        return mapper.mapWords(wordRepository.findAllByOrderByWord());
+    public List<WordDTO> getWords(int categoryId) {
+        CategoryEntity category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException(format("Category with id %s not found", categoryId)));
+
+        if (isNull(category.getDictionary()))
+            throw new RuntimeException(format("Category with id %s don't have dictionary", categoryId));
+
+        return mapper.mapWords(wordRepository.findAllByDictionaryOrderByWord(category.getDictionary()));
     }
 
     @Transactional
     public WordDTO saveWord(SaveWordRequest request) {
+        CategoryEntity category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new RuntimeException(format("Category with id %s not found", request.getCategoryId())));
+
+        if (isNull(category.getDictionary()))
+            throw new RuntimeException(format("Category with id %s don't have dictionary", request.getCategoryId()));
+
         WordEntity entity = new WordEntity();
         entity.setId(request.getId());
         entity.setWord(request.getWord());
         entity.setRegexes(request.getRegexes());
+        entity.setDictionary(category.getDictionary());
         return mapper.map(wordRepository.save(entity));
     }
 

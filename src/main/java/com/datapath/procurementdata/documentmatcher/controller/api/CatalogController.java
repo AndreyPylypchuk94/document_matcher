@@ -31,8 +31,8 @@ public class CatalogController {
     }
 
     @GetMapping("words")
-    public List<WordDTO> getWords() {
-        return service.getWords();
+    public List<WordDTO> getWords(@RequestParam int categoryId) {
+        return service.getWords(categoryId);
     }
 
     @PostMapping("words")

@@ -21,4 +21,8 @@ public class WordEntity {
     @CollectionTable(name = "word_regexes", joinColumns = @JoinColumn(name = "word_id"))
     @Column(name = "regex")
     private Set<String> regexes = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn
+    private DictionaryEntity dictionary;
 }
